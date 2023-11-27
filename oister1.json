@@ -1,0 +1,259 @@
+{
+  "openapi" : "3.0.0",
+  "info" : {
+    "title" : "Oister API",
+    "description" : "API for Oister.",
+    "version" : "1.0.0",
+    "logo":"https://avatars.githubusercontent.com/u/37010915?v=4"
+  },
+  "servers" : [ {
+    "description" : "SwaggerHub API Auto Mocking",
+    "url" : "https://virtserver.swaggerhub.com/onfinance.ai/Oister_v1/1.0.0"
+  }, {
+    "description" : "SwaggerHub API",
+    "url" : "https://icici-apis.onfinance.ai/oister"
+  } ],
+  "paths" : {
+    "/chat" : {
+      "get" : {
+        "summary" : "Get Fund Performance",
+        "description" : "Retrieves the past performance of a specific fund.",
+        "parameters" : [ {
+          "name" : "question",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "example" : "What is the past performance of Stride?",
+          "description" : "Query about the fund's performance."
+        }, {
+          "name" : "query_asker_role",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "example" : "nipponfund",
+          "description" : "Role of the entity asking the query."
+        }, {
+          "name" : "fund_id",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "example" : "qwerty123456",
+          "description" : "Unique identifier of the fund."
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successful response with fund performance data."
+          }
+        }
+      },
+      "put" : {
+        "summary" : "Upload Document",
+        "description" : "Uploads documents to a specific fund.",
+        "requestBody" : {
+          "required" : true,
+          "content" : {
+            "multipart/form-data" : {
+              "schema" : {
+                "type" : "object",
+                "properties" : {
+                  "files" : {
+                    "type" : "array",
+                    "items" : {
+                      "type" : "string",
+                      "format" : "binary"
+                    }
+                  },
+                  "access_controls" : {
+                    "type" : "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters" : [ {
+          "name" : "action",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "enum" : [ "upload_document" ]
+          },
+          "example" : "upload_document",
+          "description" : "Action type for the request."
+        }, {
+          "name" : "fund_id",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "example" : "qwerty123456",
+          "description" : "Unique identifier of the fund."
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successful document upload."
+          }
+        }
+      }
+    },
+    "/update_access_control" : {
+      "put" : {
+        "summary" : "Update Access Control",
+        "description" : "Updates access control settings for a specific document.",
+        "parameters" : [ {
+          "name" : "action",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "enum" : [ "update_access_control" ]
+          },
+          "example" : "update_access_control",
+          "description" : "Action type for the request."
+        }, {
+          "name" : "fund_id",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "example" : "qwerty123456",
+          "description" : "Unique identifier of the fund."
+        }, {
+          "name" : "access_control",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "example" : "nipponfund",
+          "description" : "Access control entity to be updated."
+        }, {
+          "name" : "update_type",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "enum" : [ "addition", "removal" ]
+          },
+          "example" : "addition",
+          "description" : "Type of update to access control."
+        }, {
+          "name" : "file_url",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "example" : "https://devspace017366075379.blob.core.windows.net/home/azureuser/iciciapis/dgraph.pdf",
+          "description" : "URL of the file for access control update."
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successful access control update."
+          }
+        }
+      }
+    },
+    "/create_fund" : {
+      "put" : {
+        "summary" : "Create Fund",
+        "description" : "Creates a new fund with a given ID.",
+        "parameters" : [ {
+          "name" : "action",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "enum" : [ "create_fund" ]
+          },
+          "example" : "create_fund",
+          "description" : "Action type for the request."
+        }, {
+          "name" : "fund_id",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "example" : "qwerty123456",
+          "description" : "Unique identifier for the new fund."
+        }, {
+          "name" : "base_url",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "example" : "https://google.com",
+          "description" : "Base URL for the fund."
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successful fund creation."
+          }
+        }
+      }
+    },
+    "/create_role" : {
+      "put" : {
+        "summary" : "Create Role",
+        "description" : "Assigns a role to a partner in a specific fund.",
+        "parameters" : [ {
+          "name" : "action",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "enum" : [ "create_role" ]
+          },
+          "example" : "create_role",
+          "description" : "Action type for the request."
+        }, {
+          "name" : "fund_id",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "example" : "qwerty123456",
+          "description" : "Unique identifier of the fund."
+        }, {
+          "name" : "partner_uid",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "example" : "motilaloswal",
+          "description" : "Unique identifier of the partner."
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successful role creation."
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "securitySchemes" : {
+      "bearerAuth" : {
+        "type" : "http",
+        "scheme" : "bearer",
+        "bearerFormat" : "JWT"
+      }
+    }
+  },
+  "security" : [ {
+    "bearerAuth" : [ ]
+  } ]
+}
